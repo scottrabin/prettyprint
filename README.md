@@ -20,19 +20,12 @@ which will return this string:
 
 ```
     {
-
         a: [
-
             5,
-
             10
-
            ],
-
         b: "A string",
-
 	c: true
-
     }
 ```
 
