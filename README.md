@@ -33,7 +33,8 @@ which will return this string:
 
 	c: true
 
-    }```
+    }
+```
 
 The ```prettyprint``` function takes parameters ```object, [depth], [indent]```
 
