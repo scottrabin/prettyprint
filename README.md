@@ -25,7 +25,7 @@ which will return this string:
             10
            ],
         b: "A string",
-	c: true
+        c: true
     }
 ```
 
