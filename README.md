@@ -13,11 +13,13 @@ Usage
 -----
 
 In your script, you can use:
+
 ```
     var prettyprint = require( 'prettyprint' ).prettyprint;
     var some_object = { a: [ 5, 10 ], b: "A string", c: true };
     prettyprint.prettyprint( some_object );
 ```
+
 which will return this string:
 
 ```
