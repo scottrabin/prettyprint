@@ -1,0 +1,19 @@
+{
+	"name": "prettyprint",
+	"version": "1.0",
+	"author": "Scott Rabin"
+	"description": "A small module for printing human-readable versions of JSON objects",
+	"keywords": [ "json", "javascript", "prettyprint" ],
+	"licenses": [
+		{
+			"type": "MIT",
+			"url":  "./LICENSE"
+		}
+	],
+	"repositories": [
+		{
+			"type": "git",
+			"url":  "git://github.com/scottrabin/prettyprint.git"
+		}
+	]
+}
