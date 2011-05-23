@@ -1,5 +1,5 @@
 function retVal( obj, depth, indent ){
-    return String(obj);
+    return JSON.stringify(obj);
 }
 
 function retType( obj, depth, indent ){
