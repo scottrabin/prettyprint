@@ -73,7 +73,7 @@ exports.format = {
 	var r = [], contains_multiline = false, v, multiline = /[\r\n]/;
 	for( var prop in obj ){
 	    if( obj.hasOwnProperty(prop)){
-		r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1 ) + "," );
+		r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1 ) );
 		if( multiline.test( r[ r.length - 1 ] ) ){
 		    contains_multiline = true;
 		}
@@ -84,7 +84,7 @@ exports.format = {
 	    return "{ " + r.join( ", " ) + " }";
 	} else {
 	    var ind = new Array( indent + 1 ).join( exports.INDENT_VALUE );
-	    return "{\n" + ind + exports.INDENT_VALUE + r.join( "\n" + ind + exports.INDENT_VALUE ) + "\n" + ind + "}";
+	    return "{\n" + ind + exports.INDENT_VALUE + r.join( ",\n" + ind + exports.INDENT_VALUE ) + "\n" + ind + "}";
 	}
     },
     '[object Number]': retVal,
