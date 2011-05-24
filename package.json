@@ -1,7 +1,7 @@
 {
 	"name": "prettyprint",
 	"version": "1.0",
-	"author": "Scott Rabin"
+	"author": "Scott Rabin",
 	"description": "A small module for printing human-readable versions of JSON objects",
 	"main": "./prettyprint.js",
 	"keywords": [ "json", "javascript", "prettyprint" ],
