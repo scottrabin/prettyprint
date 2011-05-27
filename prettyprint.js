@@ -61,7 +61,7 @@ exports.format = {
 	var r = [], contains_multiline = false, v, multiline = /[\r\n]/;
 	for( var i = 0, l = obj.length ; i < l ; ++i ){
 	    r[i] = ( obj_stack.indexOf( obj[i] ) === -1 ? 
-		     exports.prettyprint( obj[i], depth - 1, indent + 1, blacklist, obj_stack.concat( obj ) ) :
+		     exports.prettyprint( obj[i], depth - 1, indent + 1, blacklist, obj_stack ) :
 		     '[Circular]' );
 	    if( multiline.test( r[i] ) ){
 		contains_multiline = true;
@@ -80,7 +80,7 @@ exports.format = {
 	for( var prop in obj ){
 	    if( obj.hasOwnProperty(prop) && ( blacklist.indexOf( prop ) === -1 ) ){
 		if( obj_stack.indexOf( obj[prop] ) === -1 ){
-		    r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1, blacklist, obj_stack.concat( obj ) ) );		    
+		    r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1, blacklist, obj_stack ) );		    
 		} else {
 		    r.push( prop + ": [Circular]" );
 		}
