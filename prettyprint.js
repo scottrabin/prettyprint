@@ -23,8 +23,6 @@ exports.prettyprint = function( obj, depth, indent, blacklist, obj_stack ){
     blacklist = ( blacklist instanceof Array ? blacklist : [] );
     obj_stack = ( obj_stack instanceof Array ? obj_stack : [] ).concat( obj );
 
-    console.log( obj_stack );
-
     // get type
     var type = retType( obj );
 
