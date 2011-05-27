@@ -9,7 +9,7 @@ function retType( obj, depth, indent ){
 /**
  * Formats a valid Javascript parameter into a human-readable form.
  * @param {*} obj The object to format.
- * @param {Number} [depth] The depth to truncate recursive calls to (to avoid circular JSON objects)
+ * @param {Number} [depth="prettyprint.DEFAULT_DEPTH"] The depth to truncate recursive calls to (to avoid high-nested JSON objects).
  * @param {Number} [indent] The indent level of this call to prettyprint. Inserts this number of
  *                 INDENT_VALUE strings after newlines.
  * @param {Array<String>} [blacklist] An optional blacklist of object properties to not print
@@ -27,14 +27,15 @@ exports.prettyprint = function( obj, depth, indent, blacklist, obj_stack ){
     var type = retType( obj );
 
     // dispatch on type
-    var fn = ( depth < 0 ? exports.truncate : exports.format );
+    // depth strictly equals 0, because setting it to -1 means no truncating
+    var fn = ( depth === 0 ? exports.truncate : exports.format );
     return ( fn[ type ] || fn.default )( obj, depth, indent, blacklist, obj_stack );
 };
 
 /**
  * The default depth to truncate recursive calls to.
  */
-exports.DEFAULT_DEPTH = 3;
+exports.DEFAULT_DEPTH = -1;
 
 /**
  * The indent value to use for indented lines.
