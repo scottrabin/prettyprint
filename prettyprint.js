@@ -13,20 +13,24 @@ function retType( obj, depth, indent ){
  * @param {Number} [indent] The indent level of this call to prettyprint. Inserts this number of
  *                 INDENT_VALUE strings after newlines.
  * @param {Array<String>} [blacklist] An optional blacklist of object properties to not print
+ * @param {Array<Object>} [obj_stack=[]] The object stack path. Used for discovering circular references.
  * @returns {String} the string representing the pretty printed version of the input {@code obj}.
  */
-exports.prettyprint = function( obj, depth, indent, blacklist ){
+exports.prettyprint = function( obj, depth, indent, blacklist, obj_stack ){
     // handle depth & indent arguments
     depth = ( isNaN( parseInt( depth ) ) ? exports.DEFAULT_DEPTH : depth );
     indent = ( isNaN( parseInt( indent ) ) ? 0 : indent );
     blacklist = ( blacklist instanceof Array ? blacklist : [] );
+    obj_stack = ( obj_stack instanceof Array ? obj_stack : [] ).concat( obj );
+
+    console.log( obj_stack );
 
     // get type
     var type = retType( obj );
 
     // dispatch on type
     var fn = ( depth < 0 ? exports.truncate : exports.format );
-    return ( fn[ type ] || fn.default )( obj, depth, indent, blacklist );
+    return ( fn[ type ] || fn.default )( obj, depth, indent, blacklist, obj_stack );
 };
 
 /**
@@ -55,10 +59,12 @@ exports.ARRAY_INLINE_THRESHOLD = 1;
  * format function.
  */
 exports.format = {
-    '[object Array]' : function( obj, depth, indent, blacklist ){
+    '[object Array]' : function( obj, depth, indent, blacklist, obj_stack ){
 	var r = [], contains_multiline = false, v, multiline = /[\r\n]/;
 	for( var i = 0, l = obj.length ; i < l ; ++i ){
-	    r[i] = exports.prettyprint( obj[i], depth - 1, indent + 1, blacklist );
+	    r[i] = ( obj_stack.indexOf( obj[i] ) === -1 ? 
+		     exports.prettyprint( obj[i], depth - 1, indent + 1, blacklist, obj_stack.concat( obj ) ) :
+		     '[Circular]' );
 	    if( multiline.test( r[i] ) ){
 		contains_multiline = true;
 	    }
@@ -71,11 +77,16 @@ exports.format = {
 	    return "[\n" + ind + exports.INDENT_VALUE + r.join( ",\n" + ind + exports.INDENT_VALUE ) + "\n" + ind + "]";
 	}
     },
-    '[object Object]': function( obj, depth, indent, blacklist ){
+    '[object Object]': function( obj, depth, indent, blacklist, obj_stack ){
 	var r = [], contains_multiline = false, v, multiline = /[\r\n]/;
 	for( var prop in obj ){
 	    if( obj.hasOwnProperty(prop) && ( blacklist.indexOf( prop ) === -1 ) ){
-		r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1, blacklist ) );
+		if( obj_stack.indexOf( obj[prop] ) === -1 ){
+		    r.push( prop + ": " + exports.prettyprint( obj[prop], depth - 1, indent + 1, blacklist, obj_stack.concat( obj ) ) );		    
+		} else {
+		    r.push( prop + ": [Circular]" );
+		}
+
 		if( multiline.test( r[ r.length - 1 ] ) ){
 		    contains_multiline = true;
 		}
