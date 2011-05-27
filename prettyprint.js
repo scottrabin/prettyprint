@@ -21,7 +21,9 @@ exports.prettyprint = function( obj, depth, indent, blacklist, obj_stack ){
     depth = ( isNaN( parseInt( depth ) ) ? exports.DEFAULT_DEPTH : depth );
     indent = ( isNaN( parseInt( indent ) ) ? 0 : indent );
     blacklist = ( blacklist instanceof Array ? blacklist : [] );
-    obj_stack = ( obj_stack instanceof Array ? obj_stack : [] ).concat( obj );
+    obj_stack = ( obj_stack instanceof Array ? obj_stack.slice() : [] );
+
+    obj_stack.push( obj );
 
     // get type
     var type = retType( obj );
